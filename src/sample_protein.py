@@ -1,0 +1,18 @@
+"""Public protein used for the neoantigen-ranking demo.
+
+NY-ESO-1 (cancer/testis antigen 1) is a standard tumor antigen.
+Sequence: UniProt P78358 (CTG1B_HUMAN), retrieved from the UniProt FASTA.
+The HLA-A*02:01 epitope SLLMWITQC sits inside this sequence.
+"""
+
+from __future__ import annotations
+
+NY_ESO1_UNIPROT = "P78358"
+NY_ESO1_NAME = "NY-ESO-1"
+NY_ESO1_SEQUENCE = (
+    "MQAEGRGTGGSTGDADGPGGPGIPDGPGGNAGGPGEAGATGGRGPRGAGAARASGPGGGA"
+    "PRGPHGGAASGLNGCCRCGARGPESRLLEFYLAMPFATPMEAELARRSLAQDAPPLPVPG"
+    "VLLKEFTVSGNILTIRLTAADHRQLQLSISSCLQQLSLLMWITQCFLPVFLAQPPSGQRR"
+)
+KNOWN_A0201_EPITOPE = "SLLMWITQC"
+DEMO_ALLELE = "HLA-A02:01"
