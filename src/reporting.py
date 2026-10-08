@@ -109,7 +109,15 @@ def render_results_markdown(metrics: dict) -> str:
         f"Runtime: {_fmt(metrics.get('runtime_seconds'), 1)} seconds.",
         f"Peak RSS: {_fmt(metrics.get('hardware', {}).get('peak_rss_gb'), 3)} GB.",
     ]
-    return "\n".join(rows + detail) + "\n"
+    n_scored = metrics["metrics"]["heldout_alleles"].get("n_alleles_with_auroc")
+    n_held = metrics["metrics"].get("n_heldout_alleles")
+    note = ""
+    if n_scored is not None and n_held is not None and int(n_scored) != int(n_held):
+        note = (
+            f"\nThe held-out mean is over {int(n_scored)} of {int(n_held)} alleles. "
+            "An allele with only one class has no AUROC and stays in the per-allele table.\n"
+        )
+    return "\n".join(rows + detail) + "\n" + note
 
 
 def update_readme(readme_path: Path, metrics: dict) -> None:
@@ -140,7 +148,8 @@ def write_resume_notes(path: Path, metrics: dict) -> None:
     n_mers = int(neo["n_ninemers"])
     allele = neo["allele"]
     protein = neo["protein"]
-    best = random_metrics["best_model"]
+    best = {"cnn": "CNN", "transformer": "transformer"}.get(random_metrics["best_model"], random_metrics["best_model"])
+    n_scored = int(held.get("n_alleles_with_auroc", n_held))
     lines = [
         "# Resume notes",
         "",
@@ -152,8 +161,8 @@ def write_resume_notes(path: Path, metrics: dict) -> None:
             f"vs. {pssm} for a per-allele PSSM baseline."
         ),
         (
-            f"- Generalized to {n_held} alleles unseen in training with {held_auroc} "
-            "mean per-allele AUROC."
+            f"- Generalized to {n_held} alleles unseen in training, with mean per-allele "
+            f"AUROC {held_auroc} on the {n_scored} alleles that contained both binders and non-binders."
         ),
         (
             f"- Built a neoantigen-ranking demo that scores every 9-mer of {protein} "

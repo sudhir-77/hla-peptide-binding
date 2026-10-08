@@ -25,6 +25,7 @@ def _metrics() -> dict:
                 "mean_per_allele_auroc": 0.84,
                 "cnn_mean_per_allele_auroc": 0.84,
                 "transformer_mean_per_allele_auroc": 0.81,
+                "n_alleles_with_auroc": 9,
             },
             "neoantigen": {"protein": "NY-ESO-1", "allele": "HLA-A02:01", "n_ninemers": 172},
         },

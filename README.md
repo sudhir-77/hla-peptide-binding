@@ -61,7 +61,7 @@ The file is downloaded with `requests` from Harvard Dataverse file 4167073, whic
 
 ## Limitations
 
-Binding affinity is not immunogenicity, not antigen presentation, and not a clinical neoantigen call. There is no wet-lab validation and no patient data. The random split can place the same peptide in train and test with a different allele, or very similar peptides across the split, so the random-split AUROC is an easier number than the held-out-allele AUROC. The table includes non-human MHC alleles from the Nielsen NetMHCpan collection, not only HLA. Pseudo-sequences are the 34 contact residues used by NetMHCpan, not full HLA proteins. The neural nets are small CPU models. A per-allele PSSM cannot score an allele it did not see; that is a property of the baseline, not a missing file.
+Binding affinity is not immunogenicity, not antigen presentation, and not a clinical neoantigen call. There is no wet-lab validation and no patient data. The random split can place the same peptide in train and test with a different allele, or very similar peptides across the split, so the random-split AUROC is an easier number than the held-out-allele AUROC. AUROC is undefined when an allele has only one class; that allele is omitted from the mean and kept in the per-allele table. The table includes non-human MHC alleles from the Nielsen NetMHCpan collection, not only HLA. Pseudo-sequences are the 34 contact residues used by NetMHCpan, not full HLA proteins. The neural nets are small CPU models. A per-allele PSSM cannot score an allele it did not see; that is a property of the baseline, not a missing file.
 
 ## Dataset
 
@@ -72,7 +72,25 @@ Therapeutics Data Commons `MHC1_IEDB-IMGT_Nielsen`: 185,985 peptide-MHC pairs, 4
 Numbers below are written by `python run.py` from `results/metrics.json`.
 
 <!-- RESULTS_START -->
-Results appear here after `python run.py`.
+| Criterion | Value | Threshold | Passed |
+|---|---:|---:|:---:|
+| Binder AUROC (IC50 < 500 nM) on the random test split, best model | 0.939 | >= 0.9 | yes |
+| Spearman correlation of predicted vs. measured log affinity, random test split | 0.750 | >= 0.7 | yes |
+| Mean per-allele AUROC on held-out alleles | 0.837 | >= 0.8 | yes |
+| Best model vs. PSSM baseline | 0.059 | >= 0.03 | yes |
+| Test coverage of src/ | 92.811 | >= 75.0 | yes |
+
+| Model | Random-split AUROC | Random-split Spearman | Held-out mean per-allele AUROC |
+|---|---:|---:|---:|
+| CNN | 0.939 | 0.750 | 0.837 |
+| Transformer | 0.887 | 0.651 | 0.737 |
+| PSSM baseline | 0.880 | 0.631 | PSSM cannot score unseen alleles |
+
+Best model on validation AUROC: **cnn**.
+Runtime: 865.9 seconds.
+Peak RSS: 1.103 GB.
+
+The held-out mean is over 9 of 10 alleles. An allele with only one class has no AUROC and stays in the per-allele table.
 <!-- RESULTS_END -->
 
 Plots in `results/`: `auroc_comparison.png`, `pred_vs_measured.png`, `learning_curves.png`, `heldout_per_allele_auroc.png`.

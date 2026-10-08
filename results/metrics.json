@@ -1,0 +1,137 @@
+{
+  "project": "hla-peptide-binding",
+  "success_criteria": [
+    {
+      "name": "Binder AUROC (IC50 < 500 nM) on the random test split, best model",
+      "value": 0.938798699079937,
+      "op": ">=",
+      "threshold": 0.9,
+      "threshold_high": null,
+      "passed": true
+    },
+    {
+      "name": "Spearman correlation of predicted vs. measured log affinity, random test split",
+      "value": 0.7504313170622716,
+      "op": ">=",
+      "threshold": 0.7,
+      "threshold_high": null,
+      "passed": true
+    },
+    {
+      "name": "Mean per-allele AUROC on held-out alleles",
+      "value": 0.8373676166564161,
+      "op": ">=",
+      "threshold": 0.8,
+      "threshold_high": null,
+      "passed": true
+    },
+    {
+      "name": "Best model vs. PSSM baseline",
+      "value": 0.058945270292170004,
+      "op": ">=",
+      "threshold": 0.03,
+      "threshold_high": null,
+      "passed": true
+    },
+    {
+      "name": "Test coverage of src/",
+      "value": 92.81115879828326,
+      "op": ">=",
+      "threshold": 75.0,
+      "threshold_high": null,
+      "passed": true
+    }
+  ],
+  "metrics": {
+    "n_pairs": 185985,
+    "n_heldout_alleles": 10,
+    "binder_rate": 0.2710164798236417,
+    "random_test": {
+      "cnn": {
+        "auroc": 0.938798699079937,
+        "spearman": 0.7504313170622716,
+        "mean_per_allele_auroc": 0.8862734842046817
+      },
+      "transformer": {
+        "auroc": 0.8870132239770103,
+        "spearman": 0.6509337857027847,
+        "mean_per_allele_auroc": 0.7853866479903826
+      },
+      "best_model": "cnn",
+      "best": {
+        "auroc": 0.938798699079937,
+        "spearman": 0.7504313170622716
+      },
+      "selection_val_auroc": {
+        "cnn": 0.9431284979763017,
+        "transformer": 0.8897662805304419
+      }
+    },
+    "heldout_alleles": {
+      "mean_per_allele_auroc": 0.8373676166564161,
+      "cnn_mean_per_allele_auroc": 0.8373676166564161,
+      "transformer_mean_per_allele_auroc": 0.7369024019377487,
+      "per_allele_auroc": {
+        "H-2-Kb": 0.5769845239165617,
+        "HLA-A02:06": 0.8904806349945004,
+        "HLA-A26:03": 0.9482603583039357,
+        "HLA-A68:01": 0.8755914606572744,
+        "HLA-B15:03": 0.8952473807713918,
+        "HLA-B27:03": null,
+        "HLA-B27:05": 0.7483344088764826,
+        "HLA-B38:01": 0.9824885119670705,
+        "HLA-B51:01": 0.8560787360787361,
+        "HLA-B54:01": 0.7628425343417922
+      },
+      "n_alleles_with_auroc": 9,
+      "pssm": "PSSM cannot score unseen alleles"
+    },
+    "neoantigen": {
+      "protein": "NY-ESO-1",
+      "uniprot": "P78358",
+      "allele": "HLA-A02:01",
+      "allele_in_training": true,
+      "n_ninemers": 172,
+      "top_peptide": "RLLEFYLAM",
+      "top_score": 0.7555531859397888,
+      "known_epitope": "SLLMWITQC",
+      "known_epitope_rank": 13,
+      "known_epitope_score": 0.33854928612709045
+    },
+    "test_coverage_percent": 92.81115879828326,
+    "unit_tests_passed": true
+  },
+  "baseline": {
+    "name": "per-allele PSSM",
+    "random_test_auroc": 0.879853428787767,
+    "random_test_spearman": 0.6306554424845632,
+    "n_scored_random": 16153,
+    "best_model_auroc_on_pssm_rows": 0.938798699079937,
+    "auroc_gap_best_minus_pssm": 0.058945270292170004,
+    "heldout": "PSSM cannot score unseen alleles"
+  },
+  "splits": {
+    "random": {
+      "train": 129877,
+      "val": 16153,
+      "test": 16153
+    },
+    "heldout_alleles": {
+      "train": 0,
+      "val": 0,
+      "test": 23802
+    }
+  },
+  "seeds": [
+    0
+  ],
+  "hardware": {
+    "cpu": "Intel64 Family 6 Model 141 Stepping 1, GenuineIntel",
+    "ram_gb": 15.73,
+    "gpu": null,
+    "python": "3.12.10",
+    "os": "Windows-11-10.0.26200-SP0",
+    "peak_rss_gb": 1.1032
+  },
+  "runtime_seconds": 865.893
+}
